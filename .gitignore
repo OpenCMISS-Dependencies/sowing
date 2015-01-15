@@ -1,0 +1,5 @@
+build/
+docs/
+Debug/
+include/sowingconfig.h
+install/
