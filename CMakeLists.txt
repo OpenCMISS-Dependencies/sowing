@@ -32,16 +32,16 @@ endforeach()
 include(CheckIncludeFiles)
 CHECK_INCLUDE_FILES(sys/time.h time.h TIME_WITH_SYS_TIME)
 
-if (NOT WIN32)
-    include(CheckSymbolExists)
-    SET(checksymb gid_t uid_t size_t)
-    foreach(symb ${checksymb})
-        CHECK_SYMBOL_EXISTS(${symb} sys/types.h HAVE_${symb})
-        if(NOT HAVE_${symb})
-            SET(${symb} 1)
-        endif()
-    endforeach()
-endif()
+#if (NOT WIN32)
+#    include(CheckSymbolExists)
+#    SET(checksymb gid_t uid_t size_t)
+#    foreach(symb ${checksymb})
+#        CHECK_SYMBOL_EXISTS(${symb} sys/types.h HAVE_${symb})
+#        if(NOT HAVE_${symb})
+#            SET(${symb} 1)
+#        endif()
+#    endforeach()
+#endif()
 # Appears unused in code
 #CHECK_SYMBOL_EXISTS(tm sys/time.h TM_IN_SYS_TIME)
 
@@ -72,20 +72,20 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/sowingconfig.h.in.cmake
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/patchlevel.h.in
     ${CMAKE_CURRENT_SOURCE_DIR}/include/patchlevel.h)
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
-
 # libsowing
 file(GLOB sowing-src src/sys/*.c)
 add_library(sowing ${sowing-src})
 target_include_directories(sowing PRIVATE include)
 if (MINGW)
     target_compile_definitions(sowing PRIVATE __MINGW__ __MSDOS__)
+    #SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 endif()
 
 file(GLOB bfort-src src/bfort/*.c)
 add_executable(bfort ${bfort-src})
 target_link_libraries(bfort PUBLIC sowing)
 target_include_directories(bfort PRIVATE include)
+target_compile_options(bfort PRIVATE "-std=c99")
 
 # INSTALL
 install(TARGETS sowing EXPORT sowing-config
