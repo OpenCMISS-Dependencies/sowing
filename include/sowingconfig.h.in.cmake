@@ -102,7 +102,8 @@
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #cmakedefine TIME_WITH_SYS_TIME 1
 
-/* Define to 1 if your <sys/time.h> declares `struct tm'. */
+/* Define to 1 if your <sys/time.h> declares `struct tm'.
+Appears to be unused in sowing codebase! */ 
 #cmakedefine TM_IN_SYS_TIME 1
 
 /* Define to empty if `const' does not conform to ANSI C. */

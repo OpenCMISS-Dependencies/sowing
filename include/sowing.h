@@ -14,7 +14,7 @@
 
 #include <stdlib.h> 
 /* Include the definitions from configure */
-#if !defined(WIN32)
+#if defined(__MINGW__) || !defined(WIN32)
 #include "sowingconfig.h"
 #ifdef HAVE_STRING_H
 #include <string.h>

@@ -3,7 +3,7 @@ project(SOWING VERSION 1.1.16 LANGUAGES C)
 
 option(MEMORY_TRACING "Define if memory tracing is desired" NO)
 option(MEMORY_TRACING_REQUIRED "Define if memory tracing is required" NO)
-option(RE "Specify C99 restrict keyword (if not directly supported)" __restrict)
+option(RESTRICT_KEYWORD "Specify C99 restrict keyword (if not directly supported)" __restrict)
 SET(PACKAGE_NAME Sowing)
 SET(PACKAGE_STRING ${PACKAGE_NAME}-${SOWING_VERSION})
 
@@ -32,15 +32,18 @@ endforeach()
 include(CheckIncludeFiles)
 CHECK_INCLUDE_FILES(sys/time.h time.h TIME_WITH_SYS_TIME)
 
-include(CheckSymbolExists)
-SET(checksymb gid_t uid_t size_t)
-foreach(symb ${checksymb})
-    CHECK_SYMBOL_EXISTS(${symb} sys/types.h HAVE_${symb})
-    if(NOT HAVE_${symb})
-        SET(${symb} 1)
-    endif()
-endforeach()
-CHECK_SYMBOL_EXISTS(tm sys/time.h TM_IN_SYS_TIME)
+if (NOT WIN32)
+    include(CheckSymbolExists)
+    SET(checksymb gid_t uid_t size_t)
+    foreach(symb ${checksymb})
+        CHECK_SYMBOL_EXISTS(${symb} sys/types.h HAVE_${symb})
+        if(NOT HAVE_${symb})
+            SET(${symb} 1)
+        endif()
+    endforeach()
+endif()
+# Appears unused in code
+#CHECK_SYMBOL_EXISTS(tm sys/time.h TM_IN_SYS_TIME)
 
 # Look for restrict support
 include(CheckCSourceCompiles)
@@ -69,10 +72,15 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/sowingconfig.h.in.cmake
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/patchlevel.h.in
     ${CMAKE_CURRENT_SOURCE_DIR}/include/patchlevel.h)
 
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+
 # libsowing
 file(GLOB sowing-src src/sys/*.c)
 add_library(sowing ${sowing-src})
 target_include_directories(sowing PRIVATE include)
+if (MINGW)
+    target_compile_definitions(sowing PRIVATE __MINGW__ __MSDOS__)
+endif()
 
 file(GLOB bfort-src src/bfort/*.c)
 add_executable(bfort ${bfort-src})

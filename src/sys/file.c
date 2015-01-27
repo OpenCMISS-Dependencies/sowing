@@ -295,7 +295,7 @@ void SYGetHostName( char *name, int nlen )
 #endif
 }
 #else
-void SYGetHostName( char *name, nlen )
+void SYGetHostName( char *name, int nlen )
 {
 #if defined(intelnx)
 #if defined(inteldelta)
@@ -373,6 +373,7 @@ else if (mode == 'e') {
     }
 return 0;
 }
+
 int SYiFileExists( char *fname, char mode )
 {
     static int set_ids = 0;
@@ -432,6 +433,7 @@ else if (mode == 'e') {
     }
 return 0;
 }
+
 #else
 int SYiTestFile( fname, mode, uid, gid )
 char  *fname, mode;
@@ -1185,7 +1187,11 @@ while (*p) {
     *pn = 0;
     err = stat( dirname, &statbuf );
     if (err != 0) {
-	err = mkdir( dirname, fmode );
+#if defined(__MINGW__)
+	err = mkdir( dirname );
+#else
+	rr = mkdir( dirname, fmode );
+#endif
 	if (err < 0) {
 	    fprintf( stderr, "Failed to make directory %s\n", dirname );
 	    return;
@@ -1218,6 +1224,7 @@ else {
 }
 #endif
 
+#if !defined(__MSDOS__)
 /* Return 1 if the file exists.  If fname does not exist, try fname
    with each of the extensions (colon separated) in extensions.
    The extensions do not include the "." */
@@ -1246,3 +1253,4 @@ int SYFindFileWithExtension( char *fname, const char *extensions )
     }
     return 0;
 }
+#endif

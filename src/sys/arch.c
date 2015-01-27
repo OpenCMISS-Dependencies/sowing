@@ -17,6 +17,9 @@
 #if defined(sun4) && defined(sun4Pre41)
 #undef HAS_UNAME
 #endif
+#if defined(__MINGW__)
+#undef HAS_UNAME
+#endif
 
 #if defined(HAS_UNAME)
 #include <sys/utsname.h>

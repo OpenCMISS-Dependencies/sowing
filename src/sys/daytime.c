@@ -14,7 +14,7 @@
 #define __TIME_T
 #endif
 #include <time.h>
-#if !defined(__MSDOS__) && !defined(WIN32)
+#if defined(__MINGW__) || (!defined(__MSDOS__) && !defined(WIN32))
 #include <sys/time.h>        /*I <sys/time.h>  I*/
 #else
 struct timeval { long tv_sec, tv_usec; };
