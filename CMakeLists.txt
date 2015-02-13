@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(SOWING VERSION 1.1.16 LANGUAGES C)
 
+option(PACKAGE_CONFIG_DIR "Directory for package config files (relative to CMAKE_INSTALL_PREFIX)" "lib/cmake")
 option(MEMORY_TRACING "Define if memory tracing is desired" NO)
 option(MEMORY_TRACING_REQUIRED "Define if memory tracing is required" NO)
 option(RESTRICT_KEYWORD "Specify C99 restrict keyword (if not directly supported)" __restrict)
@@ -93,7 +94,7 @@ install(TARGETS sowing EXPORT sowing-config
     INCLUDES DESTINATION include)
 install(TARGETS bfort EXPORT sowing-config
     DESTINATION bin)
-install(EXPORT sowing-config DESTINATION lib/cmake)   
+install(EXPORT sowing-config DESTINATION ${PACKAGE_CONFIG_DIR})   
 include(CMakePackageConfigHelpers)
 WRITE_BASIC_PACKAGE_VERSION_FILE(${CMAKE_CURRENT_BINARY_DIR}/sowing-config-version.cmake
     COMPATIBILITY AnyNewerVersion)
