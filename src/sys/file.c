@@ -25,7 +25,9 @@
 #undef SEEK_END
 #endif
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+	#include <unistd.h>
+#elif HAVE_IO_H
+	#include <io.h>
 #endif
 
 /*
@@ -1190,7 +1192,7 @@ while (*p) {
 #if defined(__MINGW__)
 	err = mkdir( dirname );
 #else
-	rr = mkdir( dirname, fmode );
+	err = mkdir( dirname, fmode );
 #endif
 	if (err < 0) {
 	    fprintf( stderr, "Failed to make directory %s\n", dirname );

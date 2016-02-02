@@ -22,7 +22,7 @@ CHECK_FUNCTION_EXISTS(vprintf HAVE_VPRINTF)
 
 include(CheckIncludeFile)
 SET(searchheaders fcntl inttypes memory netdb pwd stdint stdlib strings string
- sys/param sys/stat sys/systeminfo sys/time sys/types time unistd)
+ sys/param sys/stat sys/systeminfo sys/time sys/types time unistd io)
 foreach(HDR ${searchheaders})
     STRING(TOUPPER ${HDR} HDR_UPPER)
     STRING(REPLACE "/" "_" HDR_UPPER ${HDR_UPPER})
