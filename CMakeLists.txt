@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(SOWING VERSION 1.1.16 LANGUAGES C)
 
-option(PACKAGE_CONFIG_DIR "Directory for package config files (relative to CMAKE_INSTALL_PREFIX)" "lib/cmake")
+set(PACKAGE_CONFIG_DIR "lib/cmake" CACHE STRING "Directory for package config files (relative to CMAKE_INSTALL_PREFIX)")
 option(MEMORY_TRACING "Define if memory tracing is desired" NO)
 option(MEMORY_TRACING_REQUIRED "Define if memory tracing is required" NO)
 option(RESTRICT_KEYWORD "Specify C99 restrict keyword (if not directly supported)" __restrict)
