@@ -31,7 +31,7 @@ foreach(HDR ${searchheaders})
 endforeach()
 
 include(CheckIncludeFiles)
-CHECK_INCLUDE_FILES("sys/time.h time.h" TIME_WITH_SYS_TIME)
+CHECK_INCLUDE_FILES("sys/time.h;time.h" TIME_WITH_SYS_TIME)
 
 #if (NOT WIN32)
 #    include(CheckSymbolExists)
